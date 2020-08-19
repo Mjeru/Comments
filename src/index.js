@@ -1,17 +1,20 @@
 import React from "react";
 import ReactDom, { render } from "react-dom";
+import CommentsList from "./components/CommetsList.js"
+import NewCommentForm from "./components/NewCommentForm.js";
 
 (function(){
-	if (!localStorage.getItem("Coments_App123321123")){
-		localStorage.setItem("Coments_App123321123",JSON.stringify([]))
+	if (!localStorage.getItem("Comments_App123321123")){
+		localStorage.setItem("Comments_App123321123",JSON.stringify([]))
 	}
 })();
+const EventsContext = React.createContext()
 
-class Coments extends React.Component{
+class Comments extends React.Component{
 	constructor(){
 		super();
 		this.state = {
-			list : JSON.parse(localStorage.getItem("Coments_App123321123")),
+			list : JSON.parse(localStorage.getItem("Comments_App123321123")),
 			newAuthor:"",
 			newText:"",
 		}
@@ -53,31 +56,21 @@ class Coments extends React.Component{
 		});
 	}
 	toStor(){
-		localStorage.setItem("Coments_App123321123",JSON.stringify(this.state.list))
+		localStorage.setItem("Comments_App123321123",JSON.stringify(this.state.list))
 	}
 	render(){
 		return(
 			
 			<div className="container">
 				<div className="left">
-					<ul className="list">
-						{this.state.list.map((item,i) =>
-						<li key={i.toString()}>
-							<div className="item-header">
-							<h2>{item.author}</h2>
-							<span>{item.date}</span>
-							</div>
-							<p>{item.text}</p>
-							<button data-id={i.toString()} onClick={this.handleClick}>Удалить</button>
-						</li>)}
-					</ul>
+					<CommentsList list={this.state.list} handleClick={this.handleClick}/>
 				</div>
 				<div className="right">
-							<form className="form" onSubmit={this.handleSubmit}>
-								<input type="text" className="author" placeholder="Имя автора" required onChange={this.handleChangeAuthor}></input>
-								<textarea placeholder="Текст коментария" required onChange={this.handleChangeText} className="text"></textarea>
-								<button type="submit">Опубликовать</button>
-							</form>
+					<NewCommentForm 
+					onSubmit={this.handleSubmit}
+					onAuthorChange={this.handleChangeAuthor}
+					onTextChange={this.handleChangeText}
+					/>		
 				</div>
 			</div>
 		)
@@ -86,7 +79,7 @@ class Coments extends React.Component{
 
 
 ReactDom.render (
-	<Coments />,
+	<Comments />,
 	document.querySelector('#app')
 );
 
