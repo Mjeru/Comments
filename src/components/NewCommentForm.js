@@ -1,11 +1,13 @@
 import React from 'react';
 import FromInputs from './FormInputs'
+
 export default function NewCommentForm(props){
+    const {addComment, newAuthor, newText} = props;
     return(
-        <form className="form" onSubmit={props.onSubmit}>
+        <form className="form" onSubmit={addComment}>
                <FromInputs
-               onAuthorChange={props.onAuthorChange}
-               onTextChange={props.onTextChange} />
+               newAuthor={newAuthor}
+               newText={newText} />
                 <button type="submit">Опубликовать</button>
         </form>
     )
