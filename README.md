@@ -2,6 +2,6 @@
 
 Для запуска 
 
->npm intsall
+>npm install
 
 >npm run dev
